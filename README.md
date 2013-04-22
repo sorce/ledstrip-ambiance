@@ -6,7 +6,7 @@ ambilight clone using python, an arduino and an lpd8806 based ledstrip.
 Modules used:
 
 https://github.com/adafruit/LPD8806
-  - library for controlling the chips on the ledstrip
+  - module for controlling the chips on the ledstrip
 
 https://github.com/arduino/Arduino/tree/master/libraries/SPI
 
