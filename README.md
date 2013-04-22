@@ -4,6 +4,7 @@ ledstrip-ambiance
 ambilight clone using python, an arduino and an lpd8806 based ledstrip.
 
 Modules used:
+
 https://github.com/adafruit/LPD8806
   - library for controlling the chips on the ledstrip
 
