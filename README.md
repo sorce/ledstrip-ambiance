@@ -3,12 +3,14 @@ ledstrip-ambiance
 
 ambilight clone using python, an arduino and an lpd8806 based ledstrip.
 
-Modules used:
+Libraries / Modules used:
 
 https://github.com/adafruit/LPD8806
-  - module for controlling the chips on the ledstrip
+  - library for controlling the chips on the ledstrip
 
 https://github.com/arduino/Arduino/tree/master/libraries/SPI
+
+http://www.pythonware.com/products/pil/
 
 https://github.com/ludios/Desktopmagic
   - module for grabbing screenshots in PIL format from win32 systems, made by ludios
