@@ -11,9 +11,6 @@ from PyQt4 import QtGui
 numLeds = 32
 
 screens = getDisplayRects()
-screen_coords = [] # list of rects ((left, top, right, bottom)) defining each screen
-screen_coords.append(list(rect for rect in screens)) 
-
 
 class ScreenColors(QtGui.QWidget):
 	def __init__(self):
@@ -25,15 +22,16 @@ class ScreenColors(QtGui.QWidget):
 	
 	def InitUI(self):
 		#create forms
-		self.setGeometry(50, 50, 1024, 768)
+		self.squareSize = 25
+		self.setGeometry(50, 50, 512, 356)
 		
 		for x in range(numLeds):
 			self.forms.append(QtGui.QFrame(self))
 			self.forms[x].setStyleSheet("QWidget { background-color: %s }" % QtGui.QColor(0,155,155).name())
 			if x < numLeds / 2:
-				self.forms[x].setGeometry(x * 50, self.height() / 4, 45, 45)
+				self.forms[x].setGeometry(x * (self.squareSize * 1.2), self.height() / 4, self.squareSize, self.squareSize)
 			else:
-				self.forms[x].setGeometry((0 + (x - (numLeds / 2))) * 50, self.height() / 2, 45, 45)
+				self.forms[x].setGeometry((0 + (x - (numLeds / 2))) * (self.squareSize * 1.2), self.height() / 2, self.squareSize, self.squareSize)
 				
 		
 		self.btn = QtGui.QPushButton('update', self)
@@ -75,9 +73,6 @@ def main():
 def getSectors(tophalf=False):
 	sector = [] # list of PIL images of sectors of the screen (len should be equal to numLeds)
 	
-	#sector_length = screen_x / numLeds #3520 / 32 = 110 NOTE that this number is NOT ACCURATE!!!
-	#need to get the total screen_x length
-	#sector_length = ( abs(screen_coords[0][2]) + abs(screen_coords[1][0]) ) / numLeds
 	(mainx1, mainy1, mainx2, mainy2) = screens[0]
 	(secx1, secy1, secx2, secy2) = screens[1]
 	
