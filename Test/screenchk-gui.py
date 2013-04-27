@@ -74,17 +74,20 @@ def main():
 
 def getSectors(tophalf=False): #this function will spit out data assuming that the second monitor (if there is one) is to the left of the main monitor, rever() the list if this is not the case
 	sector = [] # list of PIL images of sectors of the screen (len should be equal to numLeds)
+	halfnumLeds = numLeds / 2
 	
 	onescreen = False #temp variable...should really just add a parameter
 	#check if we're dealing with one or two screens
 	if (len(screens) > 1):
 		(mainx1, mainy1, mainx2, mainy2) = screens[0]
 		(secx1, secy1, secx2, secy2) = screens[1]
+		sector_length = ( abs(mainx2) + abs(secx1) ) / (numLeds - 1)
 	else:
 		onescreen = True
 		(mainx1, mainy1, mainx2, mainy2) = screens[0]
+		sector_length = abs(mainx2) / (numLeds / 2)
 	
-	sector_length = ( abs(mainx2) + abs(secx1) ) / (numLeds - 1) #NOTE: 3520/31=113 and this is not completely correct -- particulary for the last picture
+	#sector_length = ( abs(mainx2) + abs(secx1) ) / (numLeds - 1) #Note: 3520/31=113 and this is not completely correct -- particulary for the last picture
 	#may want to experiment with better sector_length values
 	#sector_length = 120
 	
@@ -92,7 +95,7 @@ def getSectors(tophalf=False): #this function will spit out data assuming that t
 	if tophalf:
 		div = 2 # used in last parameter of getarea when appended to sector below
 	
-	halfnumLeds = numLeds / 2
+	
 	
 	for x in range(numLeds):
 		if onescreen == False:
