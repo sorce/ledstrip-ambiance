@@ -42,12 +42,10 @@ def main():
 
 def getSectors(tophalf=False):
 	sector = [] # list of PIL images of sectors of the screen (len should be equal to numLeds)
-	#sector_length = screen_x / numLeds #3520 / 32 = 110 NOTE that this number is NOT ACCURATE!!!
-	#need to get the total screen_x length
-	#sector_length = ( abs(screen_coords[0][2]) + abs(screen_coords[1][0]) ) / numLeds
 	(mainx1, mainy1, mainx2, mainy2) = screens[0]
 	(secx1, secy1, secx2, secy2) = screens[1]
 	
+	#need to get the total screen_x length
 	sector_length = ( abs(mainx2) + abs(secx1) ) / (numLeds - 1) #Note: 3520/31=113 and this is not completely correct -- particulary for the last picture
 	#may want to experiment with better sector_length values
 	#sector_length = 120
