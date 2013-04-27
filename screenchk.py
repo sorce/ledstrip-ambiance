@@ -60,11 +60,11 @@ def getSectors(tophalf=False):
 	
 	for x in range(numLeds):
 		#if x  < halfnumleds: # left screen, screen_coords[1]
-		if x * sector_length < 1600: # left screen, screen_coords[0]
+		if x * sector_length < abs(secx1): #left screen, screen[1]; a second monitor on the left will have a negative value
 			sector.append(getRectAsImage( (secx1 + (x * sector_length), secy1, secx1 + (x * sector_length) + sector_length, secy2 / div)) )
-		else: #right screen, screen_coords[0]
+		else: #right (main) screen, screen[0]
 			#note that we can't use same maths as above, seeing as the right screen will start at screen coord 0,0 but x is at numLeds / 2
-			sector.append(getRectAsImage( (0 + ((x - halfnumleds) * sector_length), 0, 0 + ((x - halfnumleds) * sector_length) + sector_length,  mainy2 / div)) )
+			sector.append(getRectAsImage( (0 + ((x - halfnumLeds) * sector_length), 0, 0 + ((x - halfnumLeds) * sector_length) + sector_length,  mainy2 / div)) )
 		
 	return sector
 
