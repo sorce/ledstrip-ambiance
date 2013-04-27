@@ -1,11 +1,5 @@
-//#include "WProgram.h"
-//#include "avr/pgmspace.h"
-
-//#define __PROG_TYPES_COMPAT__
-
 #include "LPD8806.h"
 #include "SPI.h"
-
 #include "WProgram.h"
 
 int CheckForColors();
@@ -29,15 +23,14 @@ void setup()
 	Serial.begin(9600);
 	
 	strip.begin();
-	
 	strip.show();
 }
 
 void loop() 
 {
 	ret = CheckForColors();
-	if (ret == 0) { //PROBLEM AREA, never returning 0 from CheckForColors()
-		//successfully read one color value
+	if (ret == 0) {
+		//successfully read one strips worth of colors
 		for (int x = 0; x < strip.numPixels(); x++) {
 		//for (int x = strip.numPixels(); x > 0; x--) {
 			strip.setPixelColor(x, strip.Color(rgb[x][0], rgb[x][1], rgb[x][2]));
@@ -45,16 +38,14 @@ void loop()
 		}
 		strip.show();
 	}
-	
 }
 
-
-int CheckForColors() //NOTE: serial buffer only holds 64 bytes of data!!! (defined on line 60 HardwareSerial.cpp)
+int CheckForColors() //Note: serial buffer only holds 64 bytes of data (defined on line 60 HardwareSerial.cpp)
 {
 	int o, i;
 	while (Serial.available()) {
 		if (Serial.available() >= 3 * 32) { // 3 * 32  = 96 bytes to be read
-			//NOTE: serial buffer only holds 64 bytes of data as defined on line 59 in HardwareSerial.cpp
+			//serial buffer holds only 64 bytes of data as defined on line 59 in HardwareSerial.cpp
 			//I've edited this to hold 98 bytes instead of actually fixing the below code
 			for (o = 0; o < nLEDs; o++) {
 				for (i = 0; i < 3; i++) {
