@@ -72,11 +72,17 @@ def main():
 	sys.exit(app.exec_())
 	
 
-def getSectors(tophalf=False):
+def getSectors(tophalf=False): #this function will spit out data assuming that the second monitor (if there is one) is to the left of the main monitor, rever() the list if this is not the case
 	sector = [] # list of PIL images of sectors of the screen (len should be equal to numLeds)
 	
-	(mainx1, mainy1, mainx2, mainy2) = screens[0]
-	(secx1, secy1, secx2, secy2) = screens[1]
+	onescreen = false #temp variable...should really just add a parameter
+	#check if we're dealing with one or two screens
+	if (len(screens) > 1):
+		(mainx1, mainy1, mainx2, mainy2) = screens[0]
+		(secx1, secy1, secx2, secy2) = screens[1]
+	else:
+		onescreen = true
+		(mainx1, mainy1, mainx2, mainy2) = screens[0]
 	
 	#sector_length = ( abs(mainx2) + abs(secx1) ) / numLeds #NOTE: 3520/32=110 and this is NOT CORRECT
 	sector_length = 120
@@ -88,18 +94,21 @@ def getSectors(tophalf=False):
 	halfnumLeds = numLeds / 2
 	
 	for x in range(numLeds):
-		#if x  < halfnumLeds: # left screen, screen_coords[1]
-		if x * sector_length < 1600:
-			#						50, -344, 160, 856
-			#					      -1600 + (15 * 110), -344, -1600 + (15 * 110) + 110, 856 / 1
-			sector.append(getRectAsImage( (secx1 + (x * sector_length), secy1, secx1 + (x * sector_length) + sector_length, secy2 / div)) )
-		else: #right screen, screen_coords[0]
-			#note that we can't use same maths as above, seeing as the right screen will start at screen coord 0,0 but x is at numLeds / 2
-			sector.append(getRectAsImage( (0 + ((x - halfnumLeds) * sector_length), 0, 0 + ((x - halfnumLeds) * sector_length) + sector_length,  mainy2 / div)) )
-		#							0 + ((16 - 16) * 0, 0, 0 + ((16 - 16) * 0) + 110,  1080
-		#							0, 0, 110, 1080
-		#							0 + ((32-16)*110), 0, 0+((32-16)*110)+110,1080
-		#							1760, 0, 1870, 1080
+		if onescreen == false:
+			if x * sector_length < abs(secx1): #a second monitor on the left will have a negative value
+				#						50, -344, 160, 856
+				#					      -1600 + (15 * 110), -344, -1600 + (15 * 110) + 110, 856 / 1
+				sector.append(getRectAsImage( (secx1 + (x * sector_length), secy1, secx1 + (x * sector_length) + sector_length, secy2 / div)) )
+			else: #right screen, screen_coords[0]
+				#note that we can't use same maths as above, seeing as the right screen will start at screen coord 0,0 but x is at numLeds / 2
+				sector.append(getRectAsImage( (0 + ((x - halfnumLeds) * sector_length), 0, 0 + ((x - halfnumLeds) * sector_length) + sector_length,  mainy2 / div)) )
+			#							0 + ((16 - 16) * 0, 0, 0 + ((16 - 16) * 0) + 110,  1080
+			#							0, 0, 110, 1080
+			#							0 + ((32-16)*110), 0, 0+((32-16)*110)+110,1080
+			#							1760, 0, 1870, 1080
+		else: # only one screen
+			sector.append(getRectAsImage( (0 + (x * sector_length), 0, 0 + (x * sector_length) + sector_length, mainy2 / div) ))
+			
 	return sector
 
 def average_image_color(i):
