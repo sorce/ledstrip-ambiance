@@ -85,7 +85,7 @@ def getSectors(tophalf=False): #this function will spit out data assuming that t
 	else:
 		onescreen = True
 		(mainx1, mainy1, mainx2, mainy2) = screens[0]
-		sector_length = abs(mainx2) / (numLeds / 2)
+		sector_length = abs(mainx2) / (numLeds - 1)
 	
 	#sector_length = ( abs(mainx2) + abs(secx1) ) / (numLeds - 1) #Note: 3520/31=113 and this is not completely correct -- particulary for the last picture
 	#may want to experiment with better sector_length values
