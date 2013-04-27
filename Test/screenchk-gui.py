@@ -27,7 +27,7 @@ class ScreenColors(QtGui.QWidget):
 		
 		for x in range(numLeds):
 			self.forms.append(QtGui.QFrame(self))
-			self.forms[x].setStyleSheet("QWidget { background-color: %s }" % QtGui.QColor(0,155,155).name())
+			self.forms[x].setStyleSheet("QWidget { background-color: %s }" % QtGui.QColor(0,0,0).name())
 			if x < numLeds / 2:
 				self.forms[x].setGeometry(x * (self.squareSize * 1.2), self.height() / 4, self.squareSize, self.squareSize)
 			else:
@@ -39,6 +39,8 @@ class ScreenColors(QtGui.QWidget):
 		self.btn.clicked.connect(self.onUpdate)
 		
 		self.setWindowTitle('color tester')
+		
+		self.UpdateForms() #set an initial grab of color
 		self.show()
 		#self.UpdateForms()
 		
@@ -86,8 +88,6 @@ def getSectors(tophalf=False):
 	halfnumLeds = numLeds / 2
 	
 	for x in range(numLeds):
-		"""if x == 15: #15 is a special case because it's the 16th (halfway) led, and needs to be handled specially
-			sector.append(getRectAsImage( () ))"""
 		#if x  < halfnumLeds: # left screen, screen_coords[1]
 		if x * sector_length < 1600:
 			#						50, -344, 160, 856
