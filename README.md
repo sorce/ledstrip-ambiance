@@ -1,7 +1,7 @@
 ledstrip-ambiance
 =================
 
-ambilight clone using python, an arduino and an lpd8806 based ledstrip.
+ambilight clone using python2.7, an arduino uno and an lpd8806 based ledstrip.
 
 Libraries / Modules used:
 
