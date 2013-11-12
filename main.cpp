@@ -32,7 +32,6 @@ void loop()
 	if (ret == 0) {
 		//successfully read one strips worth of colors
 		for (int x = 0; x < strip.numPixels(); x++) {
-		//for (int x = strip.numPixels(); x > 0; x--) {
 			strip.setPixelColor(x, strip.Color(rgb[x][0], rgb[x][1], rgb[x][2]));
 			//strip.show();
 		}

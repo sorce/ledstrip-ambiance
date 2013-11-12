@@ -4,30 +4,20 @@ from desktopmagic.screengrab_win32 import (getDisplayRects, getRectAsImage)
 
 import sys
 import time
-#import serialArduino as serial #serialArduino edits serialWin32.py to disable DTR control
 import serial
-
 from PIL import Image, ImageGrab
 
 numLeds = 32
-
 screens = getDisplayRects()
-screen_coords = [] # list of rects ((left, top, right, bottom)) defining each screen
-screen_coords.append(rect for rect in screens) 
-#Note that screen_coords[0] is the primary screen, regardless of orientation(left/right)
+#Note that screens[0] is the primary screen, regardless of orientation(left/right)
 
-#arduino = serial.Serial('COM12', 9600, timeout=0)
 arduino = serial.Serial('COM12', 9600, timeout=1)
 serial.Serial.flush(arduino)
 
 def main():
-	#1600x1200, 1920x1080
-	
+	#1600x1200, 1920x1080 -- resolutions used by me (so comments can make sense)
 	while True:
-	#for i in range(1):
 		img_sectors = getSectors(tophalf=True)
-		#img_sectors = getSectors(tophalf=False)
-		#img_sectors.reverse()
 		for sector in img_sectors:
 			
 			r, g, b = average_image_color(sector)
@@ -49,16 +39,14 @@ def getSectors(tophalf=False):
 	sector_length = ( abs(mainx2) + abs(secx1) ) / (numLeds - 1) #Note: 3520/31=113 and this is not completely correct -- particulary for the last picture
 	#may want to experiment with better sector_length values
 	#sector_length = 120
-	
 	div = 1
 	if tophalf:
 		div = 2 # used in last parameter of getarea when appended to sector below
 	
-	
 	halfnumleds = numLeds / 2
 	
 	for x in range(numLeds):
-		# Note that case 14 produces a bade image -- and that the last part of the desktop(rightmost) is lost -- due to inprecision of sector_length
+		# Note that case 14 produces a bad image -- and that the last part of the desktop(rightmost) is lost -- due to inprecision of sector_length
 		# We could handle this case specially... however I think there's a better solution I've yet to find. The effect of this error doesn't bother me.
 		if x * sector_length < abs(secx1): #left screen, screen[1]; a second monitor on the left will have a negative value
 			sector.append(getRectAsImage( (secx1 + (x * sector_length), secy1, secx1 + (x * sector_length) + sector_length, secy2 / div)) )
